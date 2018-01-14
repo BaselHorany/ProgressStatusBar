@@ -3,7 +3,7 @@
 
 
 # ProgressStatusBar
-An another way to show progress. A progress View over the system StatusBar.  
+Another way to show progress. A progress View over the system StatusBar.  
 
 <p align="center">
   <img src="https://github.com/BaselHorany/ProgressStatusBar/blob/master/showcase.gif?raw=true" />
