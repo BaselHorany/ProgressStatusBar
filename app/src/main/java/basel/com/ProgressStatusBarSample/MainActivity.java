@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-       // mProgressStatusBar.remove();
+        mProgressStatusBar.remove();
         super.onPause();
     }
 }
