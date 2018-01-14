@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical|center_horizontal">
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="show percentage"
+            android:id="@+id/isShowPer" />
+
+        <Button
+            android:text="fake progress"
+            android:id="@+id/btn_fake"
+            android:layout_width="200dp"
+            android:layout_height="45dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_marginTop="20dp" />
+
+        <Button
+            android:text="handled progress"
+            android:id="@+id/handled"
+            android:layout_width="200dp"
+            android:layout_height="45dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_marginTop="20dp" />
+    </LinearLayout>
+
+</RelativeLayout>
