@@ -68,8 +68,10 @@ public class MainActivity extends AppCompatActivity {
 
 ## Important note
 due to android O changes this will not work on api 27 and up so you have to check
-<Enter>
+
+<p align="center">
 if < 27 { use this } else { another progress way };
+</p>
 
 ## Auther
 Basel Horany 
