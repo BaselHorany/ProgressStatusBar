@@ -44,8 +44,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.acitivity_main);
 
         mProgressStatusBar = new ProgressStatusBar(this); //initialize
+	
+	//show progress
         mProgressStatusBar.setFakeProgress(3000,true); //make fake progress from 0 to 100 in 3 sec. true/false for display percentage text.
+	//or
         mProgressStatusBar.setProgress(60,false); //set progress value manually
+	
+	//options
+	mProgressStatusBar.setProgressColor(COLOR);//default#40212121
+	mProgressStatusBar.setProgressBackgroundColor(COLOR);//default transparent or colorPrimaryDark
 
     }
     
@@ -60,10 +67,11 @@ public class MainActivity extends AppCompatActivity {
 ```
 
 ## Important note
-due to android O changes thees will not work on api 27 and up so you have to check
+due to android O changes this will not work on api 27 and up so you have to check
+<Enter>
 if < 27 { use this } else { another progress way };
 
 ## Auther
 Basel Horany 
-[www.baselhorany.com]: http://baselhorany.com
+http://baselhorany.com
 
