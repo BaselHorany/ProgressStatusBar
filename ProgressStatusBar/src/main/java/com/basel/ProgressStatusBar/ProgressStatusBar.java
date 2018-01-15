@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -20,6 +21,9 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 
 public class ProgressStatusBar extends View {
 
@@ -28,10 +32,16 @@ public class ProgressStatusBar extends View {
     private WindowManager windowManager;
     private WindowManager.LayoutParams parameters;
     private Paint progressPaint;
-    private int barColor,barThickness,progressEndX,progress,colorPrimary,interprogress;
-    private ValueAnimator barAnimator;
-    boolean isShowPercentage,isViewAdded;
+    private int ballsColor,barColor,barThickness,progressEndX,progress,colorPrimary,interprogress;
+    private ValueAnimator barProgress;
+    boolean isWait,isShowPercentage,isViewAdded;
     OnProgressListener pListener;
+    public static final float ballScale = 1.0f;
+    private float[] ballScaleFloats;
+    ArrayList<ValueAnimator> ballsProgress;
+    Handler ballsHandler;
+    Runnable ballsRunnable;
+    private HashMap<ValueAnimator,ValueAnimator.AnimatorUpdateListener> mBallsUpdateListeners;
     Context context;
 
 
@@ -65,6 +75,7 @@ public class ProgressStatusBar extends View {
         }else{
             barColor = Color.parseColor("#60ffffff");
         }
+        ballsColor = Color.parseColor("#ffffff");
         barThickness = getHeight();
 
         progressPaint = new Paint();
@@ -103,20 +114,88 @@ public class ProgressStatusBar extends View {
 
     }
 
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        progressEndX = (int) (getWidth() * progress / 100f);
-        progressPaint.setStrokeWidth(barThickness);
-        progressPaint.setColor(barColor);
-        canvas.drawRect(0, getTop(), progressEndX, getBottom(), progressPaint);
-        if(progress==100){
-            remove();
+        if(!isWait) {
+            progressEndX = (int) (getWidth() * progress / 100f);
+            progressPaint.setStrokeWidth(barThickness);
+            progressPaint.setColor(barColor);
+            canvas.drawRect(0, getTop(), progressEndX, getBottom(), progressPaint);
+            if (progress == 100) {
+                remove();
+            }
+        }else{
+            progressPaint.setColor(ballsColor);
+            progressPaint.setStyle(Paint.Style.FILL);
+            progressPaint.setAntiAlias(true);
+            float circleSpacing=3;
+            float radius=(Math.min(getWidth(),getHeight())-circleSpacing*4)/6;
+            float x = getWidth()/ 2-(radius*5+circleSpacing);
+            float y=getHeight() / 2;
+            for (int i = 0; i < 7; i++) {
+                canvas.save();
+                float translateX=x+(radius*2)*i+circleSpacing*i;
+                canvas.translate(translateX, y);
+                canvas.scale(ballScaleFloats[i], ballScaleFloats[i]);
+                canvas.drawCircle(0, 0, radius, progressPaint);
+                canvas.restore();
+            }
         }
     }
 
-    public void prepare(boolean isShowPercentage) {
+    public void setWaiting(int duration) {
+        prepare(true,true);
+        ballsProgress = new ArrayList<>();
+        ballScaleFloats = new float[]{ballScale, ballScale, ballScale, ballScale, ballScale, ballScale, ballScale};
+        mBallsUpdateListeners = new HashMap<>();
+        int[] delays = new int[]{150,260,375,450,575,650,775};
+        for (int i = 0; i < 7; i++) {
+            final int index = i;
+            ValueAnimator scaleAnimate = ValueAnimator.ofFloat(1, 0.4f, 1);
+            scaleAnimate.setDuration(750);
+            scaleAnimate.setRepeatCount(ValueAnimator.INFINITE);
+            scaleAnimate.setStartDelay(delays[i]);
+            addBallsUpdateListener(scaleAnimate,new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    ballScaleFloats[index] = (float) animation.getAnimatedValue();
+                    postInvalidate();
+                }
+            });
+            ballsProgress.add(scaleAnimate);
+        }
+        for (int i = 0; i < ballsProgress.size(); i++) {
+            ValueAnimator animator = ballsProgress.get(i);
+            ValueAnimator.AnimatorUpdateListener ballupdateListener = mBallsUpdateListeners.get(animator);
+            if (ballupdateListener!=null){
+                animator.addUpdateListener(ballupdateListener);
+            }
+            animator.start();
+        }
+        ballsHandler = new Handler();
+        ballsRunnable = new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < ballsProgress.size(); i++) {
+                    ValueAnimator animator = ballsProgress.get(i);
+                    ValueAnimator.AnimatorUpdateListener ballupdateListener = mBallsUpdateListeners.get(animator);
+                    if (ballupdateListener!=null){
+                        animator.removeUpdateListener(ballupdateListener);
+                    }
+                    animator.cancel();
+                }
+                remove();
+                ballsHandler.removeCallbacks(ballsRunnable);
+            }
+        };
+        ballsHandler.postDelayed(ballsRunnable, duration);
+    }
+
+    public void prepare(boolean isShowPercentage,boolean isWait) {
         this.isShowPercentage = isShowPercentage;
+        this.isWait = isWait;
         if(!isViewAdded) {
             windowManager.addView(mRelativeLayout, parameters);
             isViewAdded = true;
@@ -125,20 +204,23 @@ public class ProgressStatusBar extends View {
         mRelativeLayout.setVisibility(VISIBLE);
         if(isShowPercentage) {
             mRelativeLayout.setBackgroundColor(colorPrimary);
-            mTextView.setVisibility(VISIBLE);
+            if(!isWait){
+                mTextView.setVisibility(VISIBLE);
+            }
         }else{
             mRelativeLayout.setBackgroundColor(Color.TRANSPARENT);
             mTextView.setVisibility(GONE);
         }
+
     }
 
     public void setFakeProgress(int duration,boolean isShowPercentage) {
-        prepare(isShowPercentage);
+        prepare(isShowPercentage,false);
         setProgress(duration, true, true);
     }
 
     public void setProgress(int progress,boolean isShowPercentage) {
-        prepare(isShowPercentage);
+        prepare(isShowPercentage,false);
         if(progress<=100) {
             setProgress(progress, true, false);
         }else{
@@ -148,17 +230,13 @@ public class ProgressStatusBar extends View {
 
     public void setProgress(final int progress, boolean animate, final boolean isfake) {
         if (animate) {
-            barAnimator = ValueAnimator.ofFloat(0, 1);
-
-            barAnimator.setDuration(isfake ? progress : 0);
-
+            barProgress = ValueAnimator.ofFloat(0, 1);
+            barProgress.setDuration(isfake ? progress : 0);
             if(isfake) {
                 setProgress(0, false, isfake);
             }
-
-            barAnimator.setInterpolator(new DecelerateInterpolator());
-
-            barAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            barProgress.setInterpolator(new DecelerateInterpolator());
+            barProgress.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     float interpolation = (float) animation.getAnimatedValue();
@@ -168,9 +246,8 @@ public class ProgressStatusBar extends View {
                     pListener.onUpdate(interprogress);
                 }
             });
-
-            if (!barAnimator.isStarted()) {
-                barAnimator.start();
+            if (!barProgress.isStarted()) {
+                barProgress.start();
             }
         } else {
             this.progress = progress;
@@ -184,6 +261,10 @@ public class ProgressStatusBar extends View {
 
     public void setProgressBackgroundColor(int color) {
         mRelativeLayout.setBackgroundColor(color);
+    }
+
+    public void setBallsColor(int color) {
+        ballsColor = color;
     }
 
     public void remove() {
@@ -206,6 +287,10 @@ public class ProgressStatusBar extends View {
         pListener = progressListener;
     }
 
+    public void addBallsUpdateListener(ValueAnimator animator, ValueAnimator.AnimatorUpdateListener updateListener){
+        mBallsUpdateListeners.put(animator,updateListener);
+    }
+
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
@@ -219,15 +304,17 @@ public class ProgressStatusBar extends View {
     @Override
     protected Parcelable onSaveInstanceState() {
         Bundle bundle = new Bundle();
-        bundle.putInt("progress", progress);
-        bundle.putBoolean("isShowPercentage", isShowPercentage);
-        bundle.putParcelable("superState", super.onSaveInstanceState());
+        if(!isWait) {
+            bundle.putInt("progress", progress);
+            bundle.putBoolean("isShowPercentage", isShowPercentage);
+            bundle.putParcelable("superState", super.onSaveInstanceState());
+        }
         return bundle;
     }
 
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
-        if (state instanceof Bundle) {
+        if (state instanceof Bundle&&!isWait) {
             Bundle bundle = (Bundle) state;
             setProgress(bundle.getInt("progress"),bundle.getBoolean("isShowPercentage"));
             state = bundle.getParcelable("superState");
