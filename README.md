@@ -5,6 +5,10 @@
 # ProgressStatusBar
 Another way to show progress. A progress View over the system StatusBar.  
 
+<p align="left">
+The first form is suitable for showing tat the activity is being loaded like fetching data from server, meanwhile the second form is better for real proccess.
+</p>
+
 <p align="center">
   <img src="https://github.com/BaselHorany/ProgressStatusBar/blob/master/showcase.gif?raw=true" />
 </p>
@@ -46,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         mProgressStatusBar = new ProgressStatusBar(this); //initialize
 	
 	//show progress
-        mProgressStatusBar.setFakeProgress(3000,true); //make fake progress from 0 to 100 in 3 sec. true/false for display percentage text.
+        mProgressStatusBar.setFakeProgress(3000,true); //make fake progress from 0 to 100 in 3 sec. true/false for display the percentage text.
 	//or
         mProgressStatusBar.setProgress(60,false); //set progress value manually
 	
@@ -54,12 +58,25 @@ public class MainActivity extends AppCompatActivity {
 	mProgressStatusBar.setProgressColor(COLOR);//default#40212121
 	mProgressStatusBar.setProgressBackgroundColor(COLOR);//default transparent or colorPrimaryDark
 
+	//Listener
+        mProgressStatusBar.setProgressListener(new ProgressStatusBar.OnProgressListener() {
+            public void onStart() {
+                //ex: lock the UI or tent it
+            }
+            public void onUpdate(int progress) {
+                //ex: simulate with another progressView
+            }
+            public void onEnd() {
+                //ex: continue the job
+            }
+        });
+	
     }
     
 
     @Override
     protected void onPause() {
-        mProgressStatusBar.remove(); //remove progress view in case user went out before progress end
+        mProgressStatusBar.remove(); //remove progress view in case user went out before the progress end
         super.onPause();
     }
     
@@ -73,7 +90,7 @@ due to android O changes this will not work on api 27 and up so you have to chec
 if < 27 { use this } else { another progress way };
 </p>
 
-## Auther
+## Author
 Basel Horany 
 http://baselhorany.com
 
