@@ -145,7 +145,7 @@ public class ProgressStatusBar extends View {
         }
     }
 
-    public void setWaiting(int duration) {
+    public void setWaitting(int duration) {
         prepare(true,true);
         ballsProgress = new ArrayList<>();
         ballScaleFloats = new float[]{ballScale, ballScale, ballScale, ballScale, ballScale, ballScale, ballScale};
