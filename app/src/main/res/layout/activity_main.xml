@@ -15,13 +15,32 @@
             android:text="show percentage"
             android:id="@+id/isShowPer" />
 
-        <Button
-            android:text="fake progress"
-            android:id="@+id/btn_fake"
-            android:layout_width="200dp"
-            android:layout_height="45dp"
+        <LinearLayout
+            android:weightSum="2.0"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical|center_horizontal"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+            <Button
+                android:text="fake progress"
+                android:id="@+id/btn_fake"
+                android:layout_weight="1.0"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_margin="5dp" />
+            <Button
+                android:text="fake wait"
+                android:id="@+id/btn_wait"
+                android:layout_weight="1.0"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_margin="5dp" />
+        </LinearLayout>
 
         <Button
             android:text="handled progress"
@@ -31,5 +50,4 @@
             android:gravity="center_vertical|center_horizontal"
             android:layout_marginTop="20dp" />
     </LinearLayout>
-
 </RelativeLayout>
