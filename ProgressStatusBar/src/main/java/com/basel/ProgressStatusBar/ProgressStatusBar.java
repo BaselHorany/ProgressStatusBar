@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -30,6 +31,7 @@ public class ProgressStatusBar extends View {
     private int barColor,barThickness,progressEndX,progress,colorPrimary,interprogress;
     private ValueAnimator barAnimator;
     boolean isShowPercentage,isViewAdded;
+    OnProgressListener pListener;
     Context context;
 
 
@@ -58,12 +60,15 @@ public class ProgressStatusBar extends View {
         colorPrimary = a.getColor(0, 0);
         a.recycle();
 
-        barColor = Color.parseColor("#40212121");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            barColor = Color.parseColor("#40212121");
+        }else{
+            barColor = Color.parseColor("#60ffffff");
+        }
         barThickness = getHeight();
 
         progressPaint = new Paint();
         progressPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-
 
         int statusBarHeight = 0;
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
@@ -94,8 +99,6 @@ public class ProgressStatusBar extends View {
         mTextView.setGravity(Gravity.CENTER);
         mRelativeLayout.addView(mTextView);
 
-
-
         windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 
     }
@@ -108,16 +111,16 @@ public class ProgressStatusBar extends View {
         progressPaint.setColor(barColor);
         canvas.drawRect(0, getTop(), progressEndX, getBottom(), progressPaint);
         if(progress==100){
-            mRelativeLayout.setVisibility(GONE);
-            mTextView.setText("");
+            remove();
         }
     }
 
-    public void setShowPercentage(boolean isShowPercentage) {
+    public void prepare(boolean isShowPercentage) {
         this.isShowPercentage = isShowPercentage;
         if(!isViewAdded) {
             windowManager.addView(mRelativeLayout, parameters);
             isViewAdded = true;
+            pListener.onStart();
         }
         mRelativeLayout.setVisibility(VISIBLE);
         if(isShowPercentage) {
@@ -130,12 +133,12 @@ public class ProgressStatusBar extends View {
     }
 
     public void setFakeProgress(int duration,boolean isShowPercentage) {
-        setShowPercentage(isShowPercentage);
+        prepare(isShowPercentage);
         setProgress(duration, true, true);
     }
 
     public void setProgress(int progress,boolean isShowPercentage) {
-        setShowPercentage(isShowPercentage);
+        prepare(isShowPercentage);
         if(progress<=100) {
             setProgress(progress, true, false);
         }else{
@@ -162,6 +165,7 @@ public class ProgressStatusBar extends View {
                     interprogress = (int) (interpolation * (isfake ? 100 : progress));
                     setProgress(interprogress, false, isfake);
                     mTextView.setText("%"+interprogress);
+                    pListener.onUpdate(interprogress);
                 }
             });
 
@@ -186,7 +190,20 @@ public class ProgressStatusBar extends View {
         if(isViewAdded) {
             windowManager.removeViewImmediate(mRelativeLayout);
             isViewAdded = false;
+            mRelativeLayout.setVisibility(GONE);
+            mTextView.setText("");
+            pListener.onEnd();
         }
+    }
+
+    public interface OnProgressListener {
+        void onStart();
+        void onUpdate(int progress);
+        void onEnd();
+    }
+
+    public void setProgressListener(OnProgressListener progressListener) {
+        pListener = progressListener;
     }
 
     @Override
