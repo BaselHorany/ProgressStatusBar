@@ -6,7 +6,7 @@
 Another way to show progress. A progress View over the system StatusBar.  
 
 <p align="left">
-The first form is suitable for showing tat the activity is being loaded like fetching data from server, meanwhile the second form is better for real proccess.
+The first form is suitable for showing tat the activity is being loaded like fetching data from server, meanwhile the second form is better for real proccess and the thierd is for waitting.
 </p>
 
 <p align="center">
@@ -54,11 +54,14 @@ public class MainActivity extends AppCompatActivity {
         mProgressStatusBar.setFakeProgress(3000,true); //make fake progress from 0 to 100 in 3 sec. true/false for display the percentage text.
 	//or
         mProgressStatusBar.setProgress(60,false); //set progress value manually
+	//or
+        mProgressStatusBar.setWaitting(6000); //show waitting balls for 6 sec.
 	
 	/*Addidional*/
 	//options
-	mProgressStatusBar.setProgressColor(COLOR);//default#40212121
+	mProgressStatusBar.setProgressColor(COLOR);//default #40212121
 	mProgressStatusBar.setProgressBackgroundColor(COLOR);//default transparent or colorPrimaryDark
+	mProgressStatusBar.setBallsColor(COLOR);//default #ffffff
 
 	//Listener
         mProgressStatusBar.setProgressListener(new ProgressStatusBar.OnProgressListener() {
