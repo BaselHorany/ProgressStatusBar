@@ -6,7 +6,7 @@
 Another way to show progress. A progress View over the system StatusBar.  
 
 <p align="left">
-The first form is suitable for showing tat the activity is being loaded like fetching data from server, meanwhile the second form is better for real proccess and the thierd is for waitting.
+The first form is suitable for showing that the activity is being loaded like fetching data from server, meanwhile the second form is better for real process and the third is for waiting.
 </p>
 
 <p align="center">
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 	//or
         mProgressStatusBar.setProgress(60,false); //set progress value manually
 	//or
-        mProgressStatusBar.setWaitting(6000); //show waitting balls for 6 sec.
+        mProgressStatusBar.setWaiting(6000); //show waitting balls for 6 sec.
 	
 	/*Addidional*/
 	//options
