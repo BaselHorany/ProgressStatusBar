@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         wait.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mProgressStatusBar.setWaitting(6000);
+                mProgressStatusBar.setWaiting(6000);
             }
         });
 
