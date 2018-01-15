@@ -46,14 +46,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_main);
-
-        mProgressStatusBar = new ProgressStatusBar(this); //initialize
+	
+	//initialize
+        mProgressStatusBar = new ProgressStatusBar(this); 
 	
 	//show progress
         mProgressStatusBar.setFakeProgress(3000,true); //make fake progress from 0 to 100 in 3 sec. true/false for display the percentage text.
 	//or
         mProgressStatusBar.setProgress(60,false); //set progress value manually
 	
+	/*Addidional*/
 	//options
 	mProgressStatusBar.setProgressColor(COLOR);//default#40212121
 	mProgressStatusBar.setProgressBackgroundColor(COLOR);//default transparent or colorPrimaryDark
