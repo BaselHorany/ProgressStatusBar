@@ -46,6 +46,20 @@ public class MainActivity extends AppCompatActivity {
                 mProgressStatusBar.setProgress(curentProgress+10,isShowPer.isChecked());
             }
         });
+        
+        
+
+        mProgressStatusBar.setProgressListener(new ProgressStatusBar.OnProgressListener() {
+            public void onStart() {
+                //ex: lock the UI or tent it
+            }
+            public void onUpdate(int progress) {
+                //ex: simulate with another progressView
+            }
+            public void onEnd() {
+                //ex: continue the jop
+            }
+        });
 
     }
 
