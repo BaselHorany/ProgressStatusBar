@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 
+
 import com.basel.ProgressStatusBar.ProgressStatusBar;
 
 
@@ -20,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         mProgressStatusBar = new ProgressStatusBar(this);
 
@@ -46,8 +46,14 @@ public class MainActivity extends AppCompatActivity {
                 mProgressStatusBar.setProgress(curentProgress+10,isShowPer.isChecked());
             }
         });
-        
-        
+
+        Button wait = findViewById(R.id.btn_wait);
+        wait.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mProgressStatusBar.setWaiting(6000);
+            }
+        });
 
         mProgressStatusBar.setProgressListener(new ProgressStatusBar.OnProgressListener() {
             public void onStart() {
@@ -60,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 //ex: continue the jop
             }
         });
+
 
     }
 
