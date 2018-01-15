@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 	//or
         mProgressStatusBar.setProgress(60,false); //set progress value manually
 	//or
-        mProgressStatusBar.setWaiting(6000); //show waitting balls for 6 sec.
+        mProgressStatusBar.setWaitting(6000); //show waitting balls for 6 sec. ps:typo will be fixied in the next release
 	
 	/*Addidional*/
 	//options
