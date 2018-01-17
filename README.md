@@ -3,7 +3,8 @@
 
 
 # ProgressStatusBar
-Another way to show progress. A progress View over the system StatusBar.  
+Another way to show progress. A progress View over the system StatusBar.
+in addition to showing a toast message.
 
 <p align="left">
 The first form is suitable for showing that the activity is being loaded like fetching data from server, meanwhile the second form is better for real process and the third is for waiting.
@@ -11,6 +12,10 @@ The first form is suitable for showing that the activity is being loaded like fe
 
 <p align="center">
   <img src="https://github.com/BaselHorany/ProgressStatusBar/blob/master/showcase.gif?raw=true" />
+</p>
+
+<p align="center">
+  <img src="https://github.com/BaselHorany/ProgressStatusBar/blob/master/showtoast.png?raw=true" />
 </p>
 
 
@@ -55,10 +60,10 @@ public class MainActivity extends AppCompatActivity {
 	//or
         mProgressStatusBar.setProgress(60,false); //set progress value manually
 	//or
-        mProgressStatusBar.setWaitting(6000); //show waitting balls for 6 sec. ps:typo will be fixied in the next release
+        mProgressStatusBar.setWaiting(6000); //show waitting balls for 6 sec.
 	
 	//show toast message
-	mProgressStatusBar.shwoToast("1 new message", 3000);
+	mProgressStatusBar.shwoToast("1 new message", 3000); //(Sting message, int duratoion)
 		
 	/*Addidional*/
 	//options
