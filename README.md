@@ -27,7 +27,7 @@ allprojects {
 2-add it as a dependency to your app `build.gradle`
 ```java
 dependencies {
-  compile 'com.github.BaselHorany:ProgressStatusBar:1.1.0'
+  compile 'com.github.BaselHorany:ProgressStatusBar:1.1.1'
 }
 ```
 3-add SYSTEM_ALERT_WINDOW permission
@@ -57,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
 	//or
         mProgressStatusBar.setWaitting(6000); //show waitting balls for 6 sec. ps:typo will be fixied in the next release
 	
+	//show toast message
+	mProgressStatusBar.shwoToast("1 new message", 3000);
+		
 	/*Addidional*/
 	//options
 	mProgressStatusBar.setProgressColor(COLOR);//default #40212121
