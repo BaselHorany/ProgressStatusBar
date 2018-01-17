@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.Toast;
 
 
 import com.basel.ProgressStatusBar.ProgressStatusBar;
@@ -47,11 +48,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         Button wait = findViewById(R.id.btn_wait);
         wait.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mProgressStatusBar.setWaiting(6000);
+            }
+        });
+        
+        Button toast = findViewById(R.id.toast);
+        toast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mProgressStatusBar.shwoToast("1 new message",3000);
             }
         });
 
