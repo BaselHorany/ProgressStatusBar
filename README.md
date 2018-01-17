@@ -15,7 +15,7 @@ The first form is suitable for showing that the activity is being loaded like fe
 </p>
 
 <p align="center">
-  <img src="https://github.com/BaselHorany/ProgressStatusBar/blob/master/showtoast.png?raw=true" width="300" />
+  <img src="https://github.com/BaselHorany/ProgressStatusBar/blob/master/showtoast.png?raw=true" width="360" />
 </p>
 
 
