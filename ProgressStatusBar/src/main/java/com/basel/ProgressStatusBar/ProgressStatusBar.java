@@ -34,7 +34,7 @@ public class ProgressStatusBar extends View {
     private Paint progressPaint;
     private int ballsColor,barColor,barThickness,progressEndX,progress,colorPrimary,interprogress;
     private ValueAnimator barProgress;
-    boolean isWait,isShowPercentage,isViewAdded;
+    boolean isWait,isToast,isShowPercentage,isViewAdded;
     OnProgressListener pListener;
     public static final float ballScale = 1.0f;
     private float[] ballScaleFloats;
@@ -108,6 +108,7 @@ public class ProgressStatusBar extends View {
         mTextView.setLayoutParams(tvParameters);
         mTextView.setTextColor(Color.WHITE);
         mTextView.setGravity(Gravity.CENTER);
+        mTextView.setSingleLine(true);
         mRelativeLayout.addView(mTextView);
 
         windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -118,29 +119,31 @@ public class ProgressStatusBar extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if(!isWait) {
-            progressEndX = (int) (getWidth() * progress / 100f);
-            progressPaint.setStrokeWidth(barThickness);
-            progressPaint.setColor(barColor);
-            canvas.drawRect(0, getTop(), progressEndX, getBottom(), progressPaint);
-            if (progress == 100) {
-                remove();
-            }
-        }else{
-            progressPaint.setColor(ballsColor);
-            progressPaint.setStyle(Paint.Style.FILL);
-            progressPaint.setAntiAlias(true);
-            float circleSpacing=3;
-            float radius=(Math.min(getWidth(),getHeight())-circleSpacing*4)/6;
-            float x = getWidth()/ 2-(radius*5+circleSpacing);
-            float y=getHeight() / 2;
-            for (int i = 0; i < 7; i++) {
-                canvas.save();
-                float translateX=x+(radius*2)*i+circleSpacing*i;
-                canvas.translate(translateX, y);
-                canvas.scale(ballScaleFloats[i], ballScaleFloats[i]);
-                canvas.drawCircle(0, 0, radius, progressPaint);
-                canvas.restore();
+        if(!isToast) {
+            if (!isWait) {
+                progressEndX = (int) (getWidth() * progress / 100f);
+                progressPaint.setStrokeWidth(barThickness);
+                progressPaint.setColor(barColor);
+                canvas.drawRect(0, getTop(), progressEndX, getBottom(), progressPaint);
+                if (progress == 100) {
+                    remove();
+                }
+            } else {
+                progressPaint.setColor(ballsColor);
+                progressPaint.setStyle(Paint.Style.FILL);
+                progressPaint.setAntiAlias(true);
+                float circleSpacing = 3;
+                float radius = (Math.min(getWidth(), getHeight()) - circleSpacing * 4) / 6;
+                float x = getWidth() / 2 - (radius * 5 + circleSpacing);
+                float y = getHeight() / 2;
+                for (int i = 0; i < 7; i++) {
+                    canvas.save();
+                    float translateX = x + (radius * 2) * i + circleSpacing * i;
+                    canvas.translate(translateX, y);
+                    canvas.scale(ballScaleFloats[i], ballScaleFloats[i]);
+                    canvas.drawCircle(0, 0, radius, progressPaint);
+                    canvas.restore();
+                }
             }
         }
     }
@@ -196,6 +199,7 @@ public class ProgressStatusBar extends View {
     public void prepare(boolean isShowPercentage,boolean isWait) {
         this.isShowPercentage = isShowPercentage;
         this.isWait = isWait;
+        this.isToast = false;
         if(!isViewAdded) {
             windowManager.addView(mRelativeLayout, parameters);
             isViewAdded = true;
@@ -211,8 +215,30 @@ public class ProgressStatusBar extends View {
             mRelativeLayout.setBackgroundColor(Color.TRANSPARENT);
             mTextView.setVisibility(GONE);
         }
-
     }
+
+    public void shwoToast(String message, int duration) {
+        this.isToast = true;
+        mRelativeLayout.setBackgroundColor(Color.parseColor("#000000"));
+        mTextView.setText(message);
+        mTextView.setVisibility(VISIBLE);
+        if(!isViewAdded) {
+            windowManager.addView(mRelativeLayout, parameters);
+            isViewAdded = true;
+            pListener.onStart();
+        }
+        mRelativeLayout.setVisibility(VISIBLE);
+        ballsHandler = new Handler();
+        ballsRunnable = new Runnable() {
+            @Override
+            public void run() {
+                remove();
+                ballsHandler.removeCallbacks(ballsRunnable);
+            }
+        };
+        ballsHandler.postDelayed(ballsRunnable, duration);
+    }
+
 
     public void setFakeProgress(int duration,boolean isShowPercentage) {
         prepare(isShowPercentage,false);
@@ -304,7 +330,7 @@ public class ProgressStatusBar extends View {
     @Override
     protected Parcelable onSaveInstanceState() {
         Bundle bundle = new Bundle();
-        if(!isWait) {
+        if(!isWait&&!isToast) {
             bundle.putInt("progress", progress);
             bundle.putBoolean("isShowPercentage", isShowPercentage);
             bundle.putParcelable("superState", super.onSaveInstanceState());
@@ -314,7 +340,7 @@ public class ProgressStatusBar extends View {
 
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
-        if (state instanceof Bundle&&!isWait) {
+        if (state instanceof Bundle&&!isWait&&!isToast) {
             Bundle bundle = (Bundle) state;
             setProgress(bundle.getInt("progress"),bundle.getBoolean("isShowPercentage"));
             state = bundle.getParcelable("superState");
