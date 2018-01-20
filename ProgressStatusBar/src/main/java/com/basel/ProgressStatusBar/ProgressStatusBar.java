@@ -293,6 +293,12 @@ public class ProgressStatusBar extends View {
         ballsColor = color;
     }
 
+    public void setTextColor(int color) {
+        if(mTextView!=null){
+            mTextView.setTextColor(color);
+        }
+    }
+
     public void remove() {
         if(isViewAdded) {
             windowManager.removeViewImmediate(mRelativeLayout);
