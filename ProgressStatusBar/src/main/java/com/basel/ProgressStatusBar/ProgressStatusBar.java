@@ -301,6 +301,9 @@ public class ProgressStatusBar extends View {
             mTextView.setText("");
             pListener.onEnd();
         }
+        if(ballsHandler!=null&&ballsRunnable!=null){
+            ballsHandler.removeCallbacks(ballsRunnable);
+        }
     }
 
     public interface OnProgressListener {
