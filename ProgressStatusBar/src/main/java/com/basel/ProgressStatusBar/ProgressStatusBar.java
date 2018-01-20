@@ -219,7 +219,7 @@ public class ProgressStatusBar extends View {
 
     public void shwoToast(String message, int duration) {
         this.isToast = true;
-        mRelativeLayout.setBackgroundColor(Color.parseColor("#000000"));
+        mRelativeLayout.setBackgroundColor(colorPrimary);
         mTextView.setText(message);
         mTextView.setVisibility(VISIBLE);
         if(!isViewAdded) {
@@ -286,7 +286,7 @@ public class ProgressStatusBar extends View {
     }
 
     public void setProgressBackgroundColor(int color) {
-        mRelativeLayout.setBackgroundColor(color);
+        colorPrimary = color;
     }
 
     public void setBallsColor(int color) {
