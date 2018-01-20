@@ -32,7 +32,7 @@ allprojects {
 2-add it as a dependency to your app `build.gradle`
 ```java
 dependencies {
-  compile 'com.github.BaselHorany:ProgressStatusBar:1.1.1'
+  compile 'com.github.BaselHorany:ProgressStatusBar:1.1.2'
 }
 ```
 3-add SYSTEM_ALERT_WINDOW permission
@@ -66,10 +66,11 @@ public class MainActivity extends AppCompatActivity {
 	mProgressStatusBar.shwoToast("1 new message", 3000); //(Sting message, int duratoion)
 		
 	/*Addidional*/
-	//options
+	//options, anytime before you start a new progress 
 	mProgressStatusBar.setProgressColor(COLOR);//default #40212121
 	mProgressStatusBar.setProgressBackgroundColor(COLOR);//default transparent or colorPrimaryDark
 	mProgressStatusBar.setBallsColor(COLOR);//default #ffffff
+	mProgressStatusBar.setTextColor(COLOR);//default #ffffff
 
 	//Listener
         mProgressStatusBar.setProgressListener(new ProgressStatusBar.OnProgressListener() {
