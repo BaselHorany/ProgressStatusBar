@@ -1,7 +1,6 @@
 [![](https://jitpack.io/v/BaselHorany/ProgressStatusBar.svg)](https://jitpack.io/#BaselHorany/ProgressStatusBar)
 
 
-
 # ProgressStatusBar
 Another way to show progress. A progress View over the system StatusBar.
 in addition to showing a toast message.
@@ -20,28 +19,28 @@ The first form is suitable for showing that the activity is being loaded like fe
 
 
 ## Setup
-1- add jitpack.io repositories to you project `build.gradle`
-```java 
+1- Add jitpack.io repositories to you project `build.gradle`
+```groovy 
 allprojects {
 	repositories {
-		...
-	        maven { url 'https://jitpack.io' }
+	    maven { url 'https://jitpack.io' }
 	}
 }
 ```
-2-add it as a dependency to your app `build.gradle`
-```java
+2- Add it as a dependency to your app `build.gradle`
+```groovy
 dependencies {
   compile 'com.github.BaselHorany:ProgressStatusBar:1.1.3'
 }
 ```
-3-add SYSTEM_ALERT_WINDOW permission
+3- Add `SYSTEM_ALERT_WINDOW` permission
 ```xml
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 ```
 
 ## Usage
-1- in activity
+1- In your Activity class
+
 ```java
 public class MainActivity extends AppCompatActivity {
 
@@ -63,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         mProgressStatusBar.setWaiting(6000); //show waitting balls for 6 sec.
 	
 	//show toast message
-	mProgressStatusBar.shwoToast("1 new message", 3000); //(Sting message, int duratoion)
+	mProgressStatusBar.showToast("1 new message", 3000); //(Sting message, int duratoion)
 		
 	/*Addidional*/
 	//options, anytime before you start a new progress 
@@ -97,14 +96,19 @@ public class MainActivity extends AppCompatActivity {
 }
 ```
 
-## Important note
-due to android O changes this will not work on api 27 and up so you have to check
+## Important Note
+Due to Android O changes, this will not work on API 27 and above so you have to check:
 
-<p align="center">
-if < 27 { use this } else { another progress way };
-</p>
+```java
+if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+    // use this library 
+} else { 
+    // another progress way 
+};
+```
+
 
 ## Author
 Basel Horany 
-http://baselhorany.com
+[http://baselhorany.com](http://baselhorany.com)
 
