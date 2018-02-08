@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         toast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mProgressStatusBar.shwoToast("1 new message",3000);
+                mProgressStatusBar.showToast("1 new message",3000);
             }
         });
 
