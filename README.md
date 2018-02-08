@@ -30,7 +30,7 @@ allprojects {
 2- Add it as a dependency to your app `build.gradle`
 ```groovy
 dependencies {
-  compile 'com.github.BaselHorany:ProgressStatusBar:1.1.3'
+  compile 'com.github.BaselHorany:ProgressStatusBar:1.1.4'
 }
 ```
 3- Add `SYSTEM_ALERT_WINDOW` permission
