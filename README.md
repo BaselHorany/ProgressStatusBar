@@ -17,6 +17,16 @@ The first form is suitable for showing that the activity is being loaded like fe
   <img src="https://github.com/BaselHorany/ProgressStatusBar/blob/master/showtoast.png?raw=true" width="360" />
 </p>
 
+## Important Note
+Due to Android O changes, this will not work on API 27 and above so you have to check:
+
+```java
+if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+    // use this library 
+} else { 
+    // another progress way 
+}
+```
 
 ## Setup
 1- Add jitpack.io repositories to you project `build.gradle`
