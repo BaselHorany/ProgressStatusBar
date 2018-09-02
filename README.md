@@ -1,7 +1,7 @@
 [![](https://jitpack.io/v/BaselHorany/ProgressStatusBar.svg)](https://jitpack.io/#BaselHorany/ProgressStatusBar)
 
 
-# now in v1.1.5 Oreo and above are supported
+# now in v1.1.6 Oreo and above are supported
 
 # ProgressStatusBar
 Another way to show progress. A progress View over the system StatusBar.
@@ -19,6 +19,12 @@ The first form is suitable for showing that the activity is being loaded like fe
   <img src="https://github.com/BaselHorany/ProgressStatusBar/blob/master/showtoast.png?raw=true" width="360" />
 </p>
 
+That was for android pre-oreo 
+on oreo and above statusbar will remain visible for all options like this:
+<p align="center">
+  <img src="https://github.com/BaselHorany/ProgressStatusBar/blob/master/showtoastoreo.png?raw=true" width="360" />
+</p>
+
 
 ## Setup
 1- Add jitpack.io repositories to you project `build.gradle`
@@ -32,15 +38,13 @@ allprojects {
 2- Add it as a dependency to your app `build.gradle`
 ```groovy
 dependencies {
-  compile 'com.github.BaselHorany:ProgressStatusBar:1.1.5'
+  compile 'com.github.BaselHorany:ProgressStatusBar:1.1.6'
 }
 ```
-3- Add `SYSTEM_ALERT_WINDOW` permission
+3- Add `SYSTEM_ALERT_WINDOW` permission "unnecessary if your app's targetSdkVersion => oreo"
 ```xml
-    <!--for all android versions-->
+    <!--unnecessary if your app's targetSdkVersion => oreo-->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <!--in addition to this for oreo and above-->
-    <uses-permission android:name="android.permission.ACTION_MANAGE_OVERLAY_PERMISSION" />
 ```
 
 ## Usage
