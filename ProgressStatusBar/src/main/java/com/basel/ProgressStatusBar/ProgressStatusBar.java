@@ -88,8 +88,12 @@ public class ProgressStatusBar extends View {
         parameters = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.MATCH_PARENT,
                 statusBarHeight,
-                WindowManager.LayoutParams.TYPE_SYSTEM_ERROR,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,    // Keeps the button presses from going to the background window and Draws over status bar
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ?
+                        WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY : WindowManager.LayoutParams.TYPE_SYSTEM_ERROR,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE |
+                        WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |
+                        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 PixelFormat.TRANSLUCENT);
         parameters.gravity = Gravity.TOP | Gravity.CENTER;
 
@@ -203,9 +207,7 @@ public class ProgressStatusBar extends View {
         if(!isViewAdded) {
             windowManager.addView(mRelativeLayout, parameters);
             isViewAdded = true;
-            if(pListener!=null){
-                pListener.onStart();
-            }
+            pListener.onStart();
         }
         mRelativeLayout.setVisibility(VISIBLE);
         if(isShowPercentage) {
@@ -219,17 +221,15 @@ public class ProgressStatusBar extends View {
         }
     }
 
-    public void showToast(String message, int duration) {
+    public void shwoToast(String message, int duration) {
         this.isToast = true;
-        mRelativeLayout.setBackgroundColor(colorPrimary);
+        mRelativeLayout.setBackgroundColor(Color.parseColor("#000000"));
         mTextView.setText(message);
         mTextView.setVisibility(VISIBLE);
         if(!isViewAdded) {
             windowManager.addView(mRelativeLayout, parameters);
             isViewAdded = true;
-            if(pListener!=null){
-                pListener.onStart();
-            }
+            pListener.onStart();
         }
         mRelativeLayout.setVisibility(VISIBLE);
         ballsHandler = new Handler();
@@ -273,9 +273,7 @@ public class ProgressStatusBar extends View {
                     interprogress = (int) (interpolation * (isfake ? 100 : progress));
                     setProgress(interprogress, false, isfake);
                     mTextView.setText("%"+interprogress);
-                    if(pListener!=null){
-                      pListener.onUpdate(interprogress);
-                    }
+                    pListener.onUpdate(interprogress);
                 }
             });
             if (!barProgress.isStarted()) {
@@ -292,17 +290,11 @@ public class ProgressStatusBar extends View {
     }
 
     public void setProgressBackgroundColor(int color) {
-        colorPrimary = color;
+        mRelativeLayout.setBackgroundColor(color);
     }
 
     public void setBallsColor(int color) {
         ballsColor = color;
-    }
-
-    public void setTextColor(int color) {
-        if(mTextView!=null){
-            mTextView.setTextColor(color);
-        }
     }
 
     public void remove() {
@@ -311,12 +303,7 @@ public class ProgressStatusBar extends View {
             isViewAdded = false;
             mRelativeLayout.setVisibility(GONE);
             mTextView.setText("");
-            if(pListener!=null){
-                pListener.onEnd();
-            }
-        }
-        if(ballsHandler!=null&&ballsRunnable!=null){
-            ballsHandler.removeCallbacks(ballsRunnable);
+            pListener.onEnd();
         }
     }
 
