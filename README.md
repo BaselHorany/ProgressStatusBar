@@ -43,7 +43,7 @@ dependencies {
 ```
 3- Add `SYSTEM_ALERT_WINDOW` permission "unnecessary if your app's targetSdkVersion => oreo"
 ```xml
-    <!--unnecessary if your app's targetSdkVersion => oreo-->
+    <!--unnecessary if your app's minSdkVersion => oreo-->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 ```
 
@@ -53,18 +53,6 @@ dependencies {
 ```java
 public class MainActivity extends AppCompatActivity {
 
-    //overlay permission only if above Oreo
-    @SuppressLint("NewApi")
-    public void checkDrawOverlayPermission() {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (!Settings.canDrawOverlays(MainActivity.this)) {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                        Uri.parse("package:" + getPackageName()));
-                startActivityForResult(intent, 11);
-            }
-        }
-    }
-    
     ProgressStatusBar mProgressStatusBar;
 
     @Override
@@ -105,13 +93,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 	
-    }
-    
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //!important;
-        checkDrawOverlayPermission();
     }
 
     @Override
