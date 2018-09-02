@@ -283,6 +283,11 @@ public class ProgressStatusBar extends View {
         }
     }
 
+
+    public void setProgressTextColor(int color) {
+        mTextView.setTextColor(color);
+    }
+    
     public void setProgressColor(int color) {
         barColor = color;
     }
