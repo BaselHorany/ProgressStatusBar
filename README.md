@@ -1,6 +1,8 @@
 [![](https://jitpack.io/v/BaselHorany/ProgressStatusBar.svg)](https://jitpack.io/#BaselHorany/ProgressStatusBar)
 
 
+## 1.1.5 workaround to supports Oreo 
+
 # ProgressStatusBar
 Another way to show progress. A progress View over the system StatusBar.
 in addition to showing a toast message.
@@ -17,16 +19,6 @@ The first form is suitable for showing that the activity is being loaded like fe
   <img src="https://github.com/BaselHorany/ProgressStatusBar/blob/master/showtoast.png?raw=true" width="360" />
 </p>
 
-## Important Note
-Due to Android O changes, this will not work on API 27 and above so you have to check:
-
-```java
-if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-    // use this library 
-} else { 
-    // another progress way 
-}
-```
 
 ## Setup
 1- Add jitpack.io repositories to you project `build.gradle`
@@ -45,7 +37,10 @@ dependencies {
 ```
 3- Add `SYSTEM_ALERT_WINDOW` permission
 ```xml
+    <!--for all android versions-->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!--in addition to this for oreo and above-->
+    <uses-permission android:name="android.permission.ACTION_MANAGE_OVERLAY_PERMISSION" />
 ```
 
 ## Usage
@@ -54,6 +49,18 @@ dependencies {
 ```java
 public class MainActivity extends AppCompatActivity {
 
+    //overlay permission only if above Oreo
+    @SuppressLint("NewApi")
+    public void checkDrawOverlayPermission() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (!Settings.canDrawOverlays(MainActivity.this)) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        Uri.parse("package:" + getPackageName()));
+                startActivityForResult(intent, 11);
+            }
+        }
+    }
+    
     ProgressStatusBar mProgressStatusBar;
 
     @Override
@@ -96,6 +103,12 @@ public class MainActivity extends AppCompatActivity {
 	
     }
     
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //!important;
+        checkDrawOverlayPermission();
+    }
 
     @Override
     protected void onPause() {
@@ -103,17 +116,6 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
     }
     
-}
-```
-
-## Important Note
-Due to Android O changes, this will not work on API 27 and above so you have to check:
-
-```java
-if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-    // use this library 
-} else { 
-    // another progress way 
 }
 ```
 
