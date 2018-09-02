@@ -89,11 +89,10 @@ public class ProgressStatusBar extends View {
                 WindowManager.LayoutParams.MATCH_PARENT,
                 statusBarHeight,
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ?
-                        WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY : WindowManager.LayoutParams.TYPE_SYSTEM_ERROR,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE |
-                        WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |
-                        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                        WindowManager.LayoutParams.FIRST_SUB_WINDOW : WindowManager.LayoutParams.TYPE_SYSTEM_ERROR,
+                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ?
+                                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_FULLSCREEN
+                                : WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT);
         parameters.gravity = Gravity.TOP | Gravity.CENTER;
 
@@ -109,11 +108,10 @@ public class ProgressStatusBar extends View {
 
         mTextView = new TextView(context);
         ViewGroup.LayoutParams tvParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        mTextView.setLayoutParams(tvParameters);
         mTextView.setTextColor(Color.WHITE);
         mTextView.setGravity(Gravity.CENTER);
         mTextView.setSingleLine(true);
-        mRelativeLayout.addView(mTextView);
+        mRelativeLayout.addView(mTextView,tvParameters);
 
         windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 
