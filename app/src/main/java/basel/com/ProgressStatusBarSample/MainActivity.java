@@ -1,6 +1,15 @@
 package basel.com.ProgressStatusBarSample;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -17,19 +26,7 @@ public class MainActivity extends AppCompatActivity {
     ProgressStatusBar mProgressStatusBar;
     CheckBox isShowPer;
     int curentProgress = 0;
-    
-    //overlay permission only if above Oreo
-    @SuppressLint("NewApi")
-    public void checkDrawOverlayPermission() {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (!Settings.canDrawOverlays(MainActivity.this)) {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                        Uri.parse("package:" + getPackageName()));
-                startActivityForResult(intent, 11);
-            }
-        }
-    }
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,12 +65,12 @@ public class MainActivity extends AppCompatActivity {
                 mProgressStatusBar.setWaiting(6000);
             }
         });
-        
+
         Button toast = findViewById(R.id.toast);
         toast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mProgressStatusBar.showToast("1 new message",3000);
+                mProgressStatusBar.shwoToast("1 new message",3000);
             }
         });
 
@@ -91,17 +88,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-    
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //!important;
-        checkDrawOverlayPermission();
-    }
 
     @Override
     protected void onPause() {
         mProgressStatusBar.remove();
         super.onPause();
     }
+
+
 }
