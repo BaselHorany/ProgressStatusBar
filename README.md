@@ -1,7 +1,7 @@
 [![](https://jitpack.io/v/BaselHorany/ProgressStatusBar.svg)](https://jitpack.io/#BaselHorany/ProgressStatusBar)
 
 
-## 1.1.5 workaround to supports Oreo 
+# v1.1.5 workaround to supports Oreo 
 
 # ProgressStatusBar
 Another way to show progress. A progress View over the system StatusBar.
@@ -32,7 +32,7 @@ allprojects {
 2- Add it as a dependency to your app `build.gradle`
 ```groovy
 dependencies {
-  compile 'com.github.BaselHorany:ProgressStatusBar:1.1.4'
+  compile 'com.github.BaselHorany:ProgressStatusBar:1.1.5'
 }
 ```
 3- Add `SYSTEM_ALERT_WINDOW` permission
