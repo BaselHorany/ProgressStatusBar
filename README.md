@@ -38,7 +38,7 @@ allprojects {
 2- Add it as a dependency to your app `build.gradle`
 ```groovy
 dependencies {
-  compile 'com.github.BaselHorany:ProgressStatusBar:1.1.6'
+  compile 'com.github.BaselHorany:ProgressStatusBar:1.1.7'
 }
 ```
 3- Add `SYSTEM_ALERT_WINDOW` permission "unnecessary if your app's targetSdkVersion => oreo"
@@ -76,9 +76,9 @@ public class MainActivity extends AppCompatActivity {
 	/*Addidional*/
 	//options, anytime before you start a new progress 
 	mProgressStatusBar.setProgressColor(COLOR);//default #40212121
+	mProgressStatusBar.setProgressTextColor(COLOR);//default #ffffff
 	mProgressStatusBar.setProgressBackgroundColor(COLOR);//default transparent or colorPrimaryDark
 	mProgressStatusBar.setBallsColor(COLOR);//default #ffffff
-	mProgressStatusBar.setTextColor(COLOR);//default #ffffff
 
 	//Listener
         mProgressStatusBar.setProgressListener(new ProgressStatusBar.OnProgressListener() {
