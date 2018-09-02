@@ -1,7 +1,7 @@
 [![](https://jitpack.io/v/BaselHorany/ProgressStatusBar.svg)](https://jitpack.io/#BaselHorany/ProgressStatusBar)
 
 
-# v1.1.5 workaround to supports Oreo 
+# now in v1.1.5 Oreo and above are supported
 
 # ProgressStatusBar
 Another way to show progress. A progress View over the system StatusBar.
