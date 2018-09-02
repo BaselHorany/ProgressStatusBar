@@ -17,7 +17,19 @@ public class MainActivity extends AppCompatActivity {
     ProgressStatusBar mProgressStatusBar;
     CheckBox isShowPer;
     int curentProgress = 0;
-
+    
+    //overlay permission only if above Oreo
+    @SuppressLint("NewApi")
+    public void checkDrawOverlayPermission() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (!Settings.canDrawOverlays(MainActivity.this)) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        Uri.parse("package:" + getPackageName()));
+                startActivityForResult(intent, 11);
+            }
+        }
+    }
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +90,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //!important;
+        checkDrawOverlayPermission();
     }
 
     @Override
