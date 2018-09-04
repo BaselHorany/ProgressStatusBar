@@ -34,13 +34,13 @@ public class ProgressStatusBar extends View {
     private Paint progressPaint;
     private int ballsColor,barColor,barThickness,progressEndX,progress,colorPrimary,interprogress;
     private ValueAnimator barProgress;
-    boolean isWait,isToast,isShowPercentage,isViewAdded;
-    OnProgressListener pListener;
+    private boolean isWait,isToast,isShowPercentage,isViewAdded;
+    private OnProgressListener pListener;
     public static final float ballScale = 1.0f;
     private float[] ballScaleFloats;
-    ArrayList<ValueAnimator> ballsProgress;
-    Handler ballsHandler;
-    Runnable ballsRunnable;
+    private ArrayList<ValueAnimator> ballsProgress;
+    private Handler ballsHandler;
+    private Runnable ballsRunnable;
     private HashMap<ValueAnimator,ValueAnimator.AnimatorUpdateListener> mBallsUpdateListeners;
     Context context;
 
@@ -205,7 +205,7 @@ public class ProgressStatusBar extends View {
         if(!isViewAdded) {
             windowManager.addView(mRelativeLayout, parameters);
             isViewAdded = true;
-            pListener.onStart();
+            if(pListener!=null)pListener.onStart();
         }
         mRelativeLayout.setVisibility(VISIBLE);
         if(isShowPercentage) {
@@ -227,7 +227,7 @@ public class ProgressStatusBar extends View {
         if(!isViewAdded) {
             windowManager.addView(mRelativeLayout, parameters);
             isViewAdded = true;
-            pListener.onStart();
+            if(pListener!=null)pListener.onStart();
         }
         mRelativeLayout.setVisibility(VISIBLE);
         ballsHandler = new Handler();
@@ -271,7 +271,7 @@ public class ProgressStatusBar extends View {
                     interprogress = (int) (interpolation * (isfake ? 100 : progress));
                     setProgress(interprogress, false, isfake);
                     mTextView.setText("%"+interprogress);
-                    pListener.onUpdate(interprogress);
+                    if(pListener!=null)pListener.onUpdate(interprogress);
                 }
             });
             if (!barProgress.isStarted()) {
@@ -306,7 +306,7 @@ public class ProgressStatusBar extends View {
             isViewAdded = false;
             mRelativeLayout.setVisibility(GONE);
             mTextView.setText("");
-            pListener.onEnd();
+            if(pListener!=null)pListener.onEnd();
         }
     }
 
@@ -331,6 +331,7 @@ public class ProgressStatusBar extends View {
 
     @Override
     protected void onDetachedFromWindow() {
+        isViewAdded = false;
         super.onDetachedFromWindow();
     }
 
