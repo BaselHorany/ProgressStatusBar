@@ -36,7 +36,7 @@ allprojects {
 2- Add it as a dependency to your app `build.gradle`
 ```groovy
 dependencies {
-  compile 'com.github.BaselHorany:ProgressStatusBar:1.1.7'
+  compile 'com.github.BaselHorany:ProgressStatusBar:1.1.9'
 }
 ```
 3- Add `SYSTEM_ALERT_WINDOW` permission "unnecessary if your app's targetSdkVersion => oreo"
