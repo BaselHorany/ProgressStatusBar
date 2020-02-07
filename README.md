@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 	//show progress
         mProgressStatusBar.startFakeProgress(3000); //make fake progress from 0 to 100 in 3 sec.
 	//or
-        mProgressStatusBar.setProgress(60,false); //set progress value manually
+        mProgressStatusBar.setProgress(60); //set progress value manually
 	
 		
 	/*Addidional*/
