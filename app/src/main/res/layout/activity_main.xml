@@ -1,73 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_vertical|center_horizontal"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical|center_horizontal">
-
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="show percentage"
-            android:id="@+id/isShowPer" />
-
-        <LinearLayout
-            android:weightSum="2.0"
-            android:orientation="horizontal"
+        <Button
+            android:text="fake progress"
+            android:id="@+id/btn_fake"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical|center_horizontal"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
-            <Button
-                android:text="fake progress"
-                android:id="@+id/btn_fake"
-                android:layout_weight="1.0"
-                android:layout_width="0dp"
-                android:layout_height="45dp"
-                android:gravity="center_vertical|center_horizontal"
-                android:layout_margin="5dp" />
-            <Button
-                android:text="fake wait"
-                android:id="@+id/btn_wait"
-                android:layout_weight="1.0"
-                android:layout_width="0dp"
-                android:layout_height="45dp"
-                android:gravity="center_vertical|center_horizontal"
-                android:layout_margin="5dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:weightSum="2.0"
-            android:orientation="horizontal"
+            android:layout_margin="5dp" />
+        <Button
+            android:text="handled progress"
+            android:id="@+id/handled"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical|center_horizontal"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
+            android:layout_margin="5dp" />
 
-            <Button
-                android:text="handled progress"
-                android:id="@+id/handled"
-                android:layout_weight="1.0"
-                android:layout_width="0dp"
-                android:layout_height="45dp"
-                android:gravity="center_vertical|center_horizontal"
-                android:layout_margin="5dp" />
-            <Button
-                android:text="show toast"
-                android:id="@+id/toast"
-                android:layout_weight="1.0"
-                android:layout_width="0dp"
-                android:layout_height="45dp"
-                android:gravity="center_vertical|center_horizontal"
-                android:layout_margin="5dp" />
-        </LinearLayout>
-    </LinearLayout>
-</RelativeLayout>
+</LinearLayout>
