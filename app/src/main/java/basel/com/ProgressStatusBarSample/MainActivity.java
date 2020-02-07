@@ -1,31 +1,15 @@
 package basel.com.ProgressStatusBarSample;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.Toast;
-
-
 import com.basel.ProgressStatusBar.ProgressStatusBar;
-
-
 
 public class MainActivity extends AppCompatActivity {
 
-    ProgressStatusBar mProgressStatusBar;
-    CheckBox isShowPer;
-    int curentProgress = 0;
+    private ProgressStatusBar mProgressStatusBar;
+    private int curentProgress = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +18,11 @@ public class MainActivity extends AppCompatActivity {
 
         mProgressStatusBar = new ProgressStatusBar(this);
 
-        isShowPer = findViewById(R.id.isShowPer);
-
         Button fake = findViewById(R.id.btn_fake);
         fake.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mProgressStatusBar.setFakeProgress(3000,isShowPer.isChecked());
+                mProgressStatusBar.startFakeProgress(3000);
             }
         });
 
@@ -53,24 +35,7 @@ public class MainActivity extends AppCompatActivity {
                 }else{
                     curentProgress = 0;
                 }
-                mProgressStatusBar.setProgress(curentProgress+10,isShowPer.isChecked());
-            }
-        });
-
-
-        Button wait = findViewById(R.id.btn_wait);
-        wait.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mProgressStatusBar.setWaiting(6000);
-            }
-        });
-
-        Button toast = findViewById(R.id.toast);
-        toast.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mProgressStatusBar.shwoToast("1 new message",3000);
+                mProgressStatusBar.setProgress(curentProgress+10);
             }
         });
 
@@ -91,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        mProgressStatusBar.remove();
         super.onPause();
     }
 
