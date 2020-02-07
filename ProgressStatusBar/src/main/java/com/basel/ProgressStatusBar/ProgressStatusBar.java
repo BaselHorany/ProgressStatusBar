@@ -61,6 +61,9 @@ public class ProgressStatusBar extends View {
                         | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 PixelFormat.TRANSLUCENT);
         params.gravity = Gravity.TOP | Gravity.LEFT;
+        
+        setBackgroundColor(Color.TRANSPARENT);
+        
     }
 
 
@@ -152,6 +155,10 @@ public class ProgressStatusBar extends View {
 
     public void setProgressColor(int color) {
         progressPaint.setColor(color);
+    }
+    
+    public void setProgressBackgroundColor(int color) {
+        this.setBackgroundColor(color);
     }
 
     public interface OnProgressListener {
