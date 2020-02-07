@@ -9,7 +9,7 @@ in addition to showing a toast message.
 The first form is suitable for showing that the activity is being loaded like fetching data from server, meanwhile the second form is better for real process.
 </p>
 
-# 1.2.0: Toast, waiting balls and percentage text has been removed due to chaotic notches on phones which will cause them to be covered at least on some devices even if added a method to position them manually and caluclating notch coordinates is a lot of work results in ugly results for a simple idea
+# 1.2.0: Toast, waiting balls and percentage text has been removed due to chaotic notches on phones which will cause them to be covered at least on some devices even if added a method to position them manually and caluclating notch coordinates is a lot of work results in ugly positioning for a simple idea
 
 Another way to show progress. A progress View over the system StatusBar.
 
