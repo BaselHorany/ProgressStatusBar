@@ -6,15 +6,15 @@ Another way to show progress. A progress View over the system StatusBar.
 in addition to showing a toast message.
 
 <p align="left">
-The first form is suitable for showing that the activity is being loaded like fetching data from server, meanwhile the second form is better for real process and the third is for waiting.
+The first form is suitable for showing that the activity is being loaded like fetching data from server, meanwhile the second form is better for real process.
 </p>
+
+# 1.2.0: Toast, waiting balls and percentage text has been removed due to chaotic notches on phones which will cause them to be covered at least on some devices even if added a method to position them manually and caluclating notch coordinates is a lot of work results in ugly results for a simple idea
+
+Another way to show progress. A progress View over the system StatusBar.
 
 <p align="center">
   <img src="https://github.com/BaselHorany/ProgressStatusBar/blob/master/showcase.gif?raw=true" />
-</p>
-
-<p align="center">
-  <img src="https://github.com/BaselHorany/ProgressStatusBar/blob/master/showtoast.png?raw=true" width="360" />
 </p>
 
 That was for android pre-oreo 
@@ -36,14 +36,10 @@ allprojects {
 2- Add it as a dependency to your app `build.gradle`
 ```groovy
 dependencies {
-  compile 'com.github.BaselHorany:ProgressStatusBar:1.1.9'
+  compile 'com.github.BaselHorany:ProgressStatusBar:1.2.0'
 }
 ```
-3- Add `SYSTEM_ALERT_WINDOW` permission "unnecessary if your app's targetSdkVersion => oreo"
-```xml
-    <!--unnecessary if your app's minSdkVersion => oreo-->
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-```
+
 
 ## Usage
 1- In your Activity class
@@ -62,21 +58,15 @@ public class MainActivity extends AppCompatActivity {
         mProgressStatusBar = new ProgressStatusBar(this); 
 	
 	//show progress
-        mProgressStatusBar.setFakeProgress(3000,true); //make fake progress from 0 to 100 in 3 sec. true/false for display the percentage text.
+        mProgressStatusBar.startFakeProgress(3000); //make fake progress from 0 to 100 in 3 sec.
 	//or
         mProgressStatusBar.setProgress(60,false); //set progress value manually
-	//or
-        mProgressStatusBar.setWaiting(6000); //show waitting balls for 6 sec.
 	
-	//show toast message
-	mProgressStatusBar.showToast("1 new message", 3000); //(Sting message, int duratoion)
 		
 	/*Addidional*/
 	//options, anytime before you start a new progress 
 	mProgressStatusBar.setProgressColor(COLOR);//default #40212121
-	mProgressStatusBar.setProgressTextColor(COLOR);//default #ffffff
-	mProgressStatusBar.setProgressBackgroundColor(COLOR);//default transparent or colorPrimaryDark
-	mProgressStatusBar.setBallsColor(COLOR);//default #ffffff
+	mProgressStatusBar.setProgressBackgroundColor(COLOR);//default transparent
 
 	//Listener
         mProgressStatusBar.setProgressListener(new ProgressStatusBar.OnProgressListener() {
@@ -93,12 +83,6 @@ public class MainActivity extends AppCompatActivity {
 	
     }
 
-    @Override
-    protected void onPause() {
-        mProgressStatusBar.remove(); //remove progress view in case user went out before the progress end
-        super.onPause();
-    }
-    
 }
 ```
 
