@@ -36,7 +36,7 @@ allprojects {
 2- Add it as a dependency to your app `build.gradle`
 ```groovy
 dependencies {
-  compile 'com.github.BaselHorany:ProgressStatusBar:1.2.0'
+  compile 'com.github.BaselHorany:ProgressStatusBar:1.2.4'
 }
 ```
 
